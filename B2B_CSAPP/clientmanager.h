@@ -31,12 +31,18 @@ public slots:
 
     void clientIdNameListData(int,QTreeWidgetItem*);
 
+    void serverClientList();
+
 signals:
     void clientAdded(QString);
     void clientDataSent(Client*);
     void clientDataSent(QString);
     void clientDataSent(int);
     void clientNameDataSent(Client*,QTreeWidgetItem*);
+
+    void clientToServer(QTreeWidgetItem*);
+
+    void clickedServerTabSignal();
 
 private slots:
     // QTreeWidget 슬롯
@@ -59,6 +65,8 @@ private:
     QMap<int, QString> addLogList;
     QMultiMap<int, QString> logTimeList;
     QMenu* menu;
+
+    QMap<int, QString> serverClient;
 };
 
 #endif // CLIENTMANAGER_H

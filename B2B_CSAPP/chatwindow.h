@@ -32,6 +32,7 @@ private:
     QTextEdit *message;
     QLineEdit *inputLine;
     QTcpSocket *clientSocket;
+    QList<QTcpSocket*> clientList;
 };
 
 #endif // CHATWINDOW_H

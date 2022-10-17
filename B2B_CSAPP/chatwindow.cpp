@@ -11,13 +11,11 @@ ChatWindow::ChatWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QLineEdit *serverPort = new QLineEdit(this);
-
     clientSocket = new QTcpSocket(this);
+    clientSocket->connectToHost("127.0.0.1",8010);
     connect(clientSocket, &QAbstractSocket::errorOccurred,
             [=]{ qDebug() << clientSocket->errorString();});
     connect(clientSocket, SIGNAL(readyRead()),this,SLOT(echoData()));
-//    setWindowTitle("Echo Client");
 }
 
 ChatWindow::~ChatWindow()
@@ -40,20 +38,24 @@ void ChatWindow::on_lineEdit_returnPressed()
 
 void ChatWindow::echoData()
 {
-    QTcpSocket *clientSocket = (QTcpSocket *)sender();
-    if (clientSocket->bytesAvailable() > BLOCK_SIZE) return;
-    QByteArray bytearray = clientSocket->read(BLOCK_SIZE);
-    message->append(QString(bytearray));
+    QTcpSocket *clientConnection = (QTcpSocket *)sender();
+    if (clientConnection->bytesAvailable() > BLOCK_SIZE) return;
+    QByteArray bytearray = clientConnection->read(BLOCK_SIZE);
+    foreach(QTcpSocket *sock, clientList) {
+        if (sock != clientConnection)
+            sock->write(bytearray);
+    }
+    ui->textEdit->append(QString(bytearray));
 }
 
 void ChatWindow::sendData()
 {
-    QString str = inputLine->text();
+    QString str = ui->inputLine->text();
     if(str.length())
     {
         QByteArray bytearray;
         bytearray = str.toUtf8();
         clientSocket->write(bytearray);
     }
-    message->append("나 : " + str);
+    ui->textEdit->append("나 : " + str);
 }

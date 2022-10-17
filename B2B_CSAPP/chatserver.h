@@ -5,10 +5,22 @@
 #include <QLabel>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QTreeWidgetItem>
 
 namespace Ui {
 class ChatServer;
 }
+
+typedef enum {
+    Server_In,
+    Chat_In,
+    Caht_Talk,
+} Chat_Status;
+
+typedef struct {
+    Chat_Status type;
+    char data[1020];
+} chatProtocolType;
 
 class ChatServer : public QWidget
 {
@@ -18,8 +30,18 @@ public:
     explicit ChatServer(QWidget *parent = nullptr);
     ~ChatServer();
 
+public slots:
     void clientConnect();
-    void echoData();
+    void removeClient();
+    void receiveData();
+
+    void showServerClient(QTreeWidgetItem*);
+
+signals:
+    void clickedUpdate();
+
+private slots:
+    void on_pushButton_clicked();
 
 private:
     Ui::ChatServer *ui;

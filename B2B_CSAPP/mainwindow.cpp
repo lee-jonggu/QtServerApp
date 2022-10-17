@@ -25,7 +25,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tabWidget->addTab(orderManager, "&Order");
     orderManager->loadData();
 
-
+    chatManager = new ChatServer(this);
+    ui->tabWidget->addTab(chatManager,"&Chat Server");
 
     //clientManager 에서 검색한 리스트를 OrderManager에 전달
     connect(clientManager, SIGNAL(clientDataSent(Client*)), orderManager, SLOT(showClientData(Client*)));
@@ -48,6 +49,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(clientManager,SIGNAL(clientNameDataSent(Client*,QTreeWidgetItem*)),orderManager,SLOT(showClientNameData(Client*,QTreeWidgetItem*)));
     connect(orderManager,SIGNAL(itemNameDataSent(int,QTreeWidgetItem*)),itemManager,SLOT(itemIdNameListData(int,QTreeWidgetItem*)));
     connect(itemManager,SIGNAL(itemNameDataSent(Item*,QTreeWidgetItem*)),orderManager,SLOT(showItemNameData(Item*,QTreeWidgetItem*)));
+
+    // 서버탭 클릭하면 클라이언트 리스트가 서버 탭의 전체 클라이언트 리스트로 넘어가게 만들기
+    connect(chatManager,SIGNAL(clickedUpdate()),clientManager,SLOT(serverClientList()));
+    connect(clientManager,SIGNAL(clientToServer(QTreeWidgetItem*)),chatManager,SLOT(showServerClient(QTreeWidgetItem*)));
 }
 
 MainWindow::~MainWindow()
@@ -58,14 +63,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
+
+
     chatWindow = new ChatWindow(nullptr);
     chatWindow->show();
-}
-
-
-void MainWindow::on_pushButton_2_clicked()
-{
-    chatManager = new ChatServer(nullptr);
-    chatManager->show();
 }
 

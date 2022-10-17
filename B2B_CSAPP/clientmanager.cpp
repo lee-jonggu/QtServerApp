@@ -266,3 +266,19 @@ void ClientManager::clientIdNameListData(int id,QTreeWidgetItem* row)
         emit clientNameDataSent(client,row);
     }
 }
+
+void ClientManager::serverClientList()
+{
+    foreach(auto i, clientList)
+    {
+        Client* c = static_cast<Client*>(i);
+        int id = c->id();
+        QString name = c->getName();
+
+        QTreeWidgetItem *item = new QTreeWidgetItem;
+        item->setText(0,QString::number(id));
+        item->setText(1,name);
+        serverClient.insert(id,name);
+        emit clientToServer(item);
+    }
+}
