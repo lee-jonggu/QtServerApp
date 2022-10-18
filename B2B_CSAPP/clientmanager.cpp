@@ -37,7 +37,7 @@ void ClientManager::loadData()
             ui->ClientInfoTreeWidget->addTopLevelItem(c);
             clientList.insert(id, c);
 
-            emit clientAdded(row[1]);
+            emit clientAdded(id,row[1]);
         }
     }
     file.close( );
@@ -75,7 +75,7 @@ void ClientManager::on_ClientInfoAddPushButton_clicked()
         Client* c = new Client(id, name, address, phoneNum, type);
         clientList.insert(id, c);
         ui->ClientInfoTreeWidget->addTopLevelItem(c);
-        emit clientAdded(name);
+        emit clientAdded(id,name);
     }
 
     addLogList.insert(id,QTime::currentTime().toString());
@@ -119,6 +119,8 @@ void ClientManager::on_ClientInfoRemovePushButton_clicked()
     QTreeWidgetItem* item = ui->ClientInfoTreeWidget->currentItem();
     if(item != nullptr) {
         clientList.remove(item->text(0).toInt());
+        int itemidx =  ui->ClientInfoTreeWidget->indexOfTopLevelItem(item);
+
         ui->ClientInfoTreeWidget->takeTopLevelItem(ui->ClientInfoTreeWidget->indexOfTopLevelItem(item));
         ui->ClientInfoTreeWidget->update();
 
@@ -126,6 +128,8 @@ void ClientManager::on_ClientInfoRemovePushButton_clicked()
         ui->ClientInfoInputAddressLineEdit->clear();
         ui->ClientInfoInputPhoneNumLineEdit->clear();
         ui->ClientInfoInputTypeLineEdit->clear();
+
+        emit clientRemove(item->text(0).toInt(),itemidx);
     }
 }
 

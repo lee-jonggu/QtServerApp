@@ -31,17 +31,12 @@ public:
     ~ChatServer();
 
 public slots:
+    void showIdName(int,QString);
+    void removeIdName(int,int);
     void clientConnect();
-    void removeClient();
     void receiveData();
 
     void showServerClient(QTreeWidgetItem*);
-
-signals:
-    void clickedUpdate();
-
-private slots:
-    void on_pushButton_clicked();
 
 private:
     Ui::ChatServer *ui;
@@ -49,6 +44,10 @@ private:
     QLabel *infoLabel;
     QTcpServer *tcpServer;
     QList<QTcpSocket*> clientList;
+
+    QString clientId;                                    // 서버에 아이디가 저장되어 있는지 확인
+
+    QHash<QString, QString> clientNameHash;
 };
 
 #endif // CHATSERVER_H

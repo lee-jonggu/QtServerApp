@@ -70,31 +70,52 @@ void ChatServer::receiveData()
 
     QString ip = clientConnection->peerAddress().toString();
     quint16 port = clientConnection->peerPort();
+    QString name = QString::fromStdString(data.data);
+    foreach(auto item, ui->totalClientTreeWidget->findItems(name,Qt::MatchFixedString,1))
+    {
+        clientId = item->text(0);
+    }
 
     QTreeWidgetItem *item = new QTreeWidgetItem;
     item->setText(0,ip);
     item->setText(1,QString::number(port));
-    item->setText(2,0);
-    item->setText(3,0);
+    item->setText(2,clientId);
+    item->setText(3,name);
     item->setText(4,bytearray);
     item->setToolTip(4,bytearray);
     item->setText(5,QTime::currentTime().toString());
     ui->logTreeWidget->addTopLevelItem(item);
-
     switch(data.type) {
     case Server_In:
-        foreach(auto item, ui->clientTreeWidget->findItems(name, Qt::MatchFixedString, 1))
+        foreach(auto item, ui->totalClientTreeWidget->findItems(name, Qt::MatchFixedString, 1))
         {
-
+            QTreeWidgetItem *enterItem = new QTreeWidgetItem;
+            QString id = item->text(0);
+            QString name = item->text(1);
+            enterItem->setText(0,id);
+            enterItem->setText(1,name);
+            ui->enteredTreeWidget->addTopLevelItem(enterItem);
+            clientList.append(clientConnection);        // QList<QTcpSocket*> clientList;
+            clientNameHash[ip] = name;
         }
-    }
-
-    foreach(QTcpSocket *sock, clientList) {
-        if (sock != clientConnection)
-            sock->write(bytearray);
+        break;
     }
 
 
+}
+
+void ChatServer::showIdName(int id,QString name)
+{
+    QTreeWidgetItem *item = new QTreeWidgetItem;
+    item->setText(0,QString::number(id));
+    item->setText(1,name);
+    ui->totalClientTreeWidget->addTopLevelItem(item);
+}
+
+void ChatServer::removeIdName(int id,int index)
+{
+    Q_UNUSED(id);
+    ui->totalClientTreeWidget->takeTopLevelItem(index);
 }
 
 void ChatServer::showServerClient(QTreeWidgetItem* item)
@@ -102,20 +123,6 @@ void ChatServer::showServerClient(QTreeWidgetItem* item)
     ui->totalClientTreeWidget->addTopLevelItem(item);
 }
 
-void ChatServer::on_pushButton_clicked()
-{
-    emit clickedUpdate();
-}
 
-void ChatServer::removeClient()
-{
-    QTcpSocket *clientConnection = dynamic_cast<QTcpSocket *>(sender( ));
-    clientList.removeOne(clientConnection);
-    clientConnection->deleteLater();
 
-    QString name = clientNameHash[clientConnection->peerAddress().toString()];
-    foreach(auto item, ui->clientTreeWidget->findItems(name, Qt::MatchContains, 1)) {
-        item->setText(0, "X");
-    }
-}
 

@@ -15,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     clientManager = new ClientManager(this);
     ui->tabWidget->addTab(clientManager,"&Client");
-    clientManager->loadData();
 
     itemManager = new ItemManager(this);
     ui->tabWidget->addTab(itemManager,"&Item");
@@ -27,6 +26,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     chatManager = new ChatServer(this);
     ui->tabWidget->addTab(chatManager,"&Chat Server");
+
+    connect(clientManager,SIGNAL(clientAdded(int,QString)),chatManager,SLOT(showIdName(int,QString)));
+    connect(clientManager,SIGNAL(clientRemove(int,int)),chatManager,SLOT(removeIdName(int,int)));
+
+    clientManager->loadData();
 
     //clientManager 에서 검색한 리스트를 OrderManager에 전달
     connect(clientManager, SIGNAL(clientDataSent(Client*)), orderManager, SLOT(showClientData(Client*)));
@@ -49,10 +53,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(clientManager,SIGNAL(clientNameDataSent(Client*,QTreeWidgetItem*)),orderManager,SLOT(showClientNameData(Client*,QTreeWidgetItem*)));
     connect(orderManager,SIGNAL(itemNameDataSent(int,QTreeWidgetItem*)),itemManager,SLOT(itemIdNameListData(int,QTreeWidgetItem*)));
     connect(itemManager,SIGNAL(itemNameDataSent(Item*,QTreeWidgetItem*)),orderManager,SLOT(showItemNameData(Item*,QTreeWidgetItem*)));
-
-    // 서버탭 클릭하면 클라이언트 리스트가 서버 탭의 전체 클라이언트 리스트로 넘어가게 만들기
-    connect(chatManager,SIGNAL(clickedUpdate()),clientManager,SLOT(serverClientList()));
-    connect(clientManager,SIGNAL(clientToServer(QTreeWidgetItem*)),chatManager,SLOT(showServerClient(QTreeWidgetItem*)));
 }
 
 MainWindow::~MainWindow()

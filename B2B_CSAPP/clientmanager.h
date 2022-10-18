@@ -34,7 +34,8 @@ public slots:
     void serverClientList();
 
 signals:
-    void clientAdded(QString);
+    void clientAdded(int,QString);
+    void clientRemove(int,int);
     void clientDataSent(Client*);
     void clientDataSent(QString);
     void clientDataSent(int);
