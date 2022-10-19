@@ -70,30 +70,31 @@ void ChatServer::receiveData()
 
     QString ip = clientConnection->peerAddress().toString();
     quint16 port = clientConnection->peerPort();
-    QString name = QString::fromStdString(data.data);
-    foreach(auto item, ui->totalClientTreeWidget->findItems(name,Qt::MatchFixedString,1))
+    QString id = QString::fromStdString(data.data);
+    foreach(auto item, ui->totalClientTreeWidget->findItems(id,Qt::MatchFixedString,0))
     {
-        clientId = item->text(0);
+        clientName = item->text(1);
     }
-
+    qDebug() << clientName;
     QTreeWidgetItem *item = new QTreeWidgetItem;
     item->setText(0,ip);
     item->setText(1,QString::number(port));
-    item->setText(2,clientId);
-    item->setText(3,name);
+    item->setText(2,id);
+    item->setText(3,clientName);
     item->setText(4,bytearray);
     item->setToolTip(4,bytearray);
     item->setText(5,QTime::currentTime().toString());
     ui->logTreeWidget->addTopLevelItem(item);
+
     switch(data.type) {
     case Server_In:
-        foreach(auto item, ui->totalClientTreeWidget->findItems(name, Qt::MatchFixedString, 1))
+        foreach(auto item, ui->totalClientTreeWidget->findItems(id, Qt::MatchFixedString, 0))
         {
             QTreeWidgetItem *enterItem = new QTreeWidgetItem;
             QString id = item->text(0);
             QString name = item->text(1);
             enterItem->setText(0,id);
-            enterItem->setText(1,name);
+            enterItem->setText(1,clientName);
             ui->enteredTreeWidget->addTopLevelItem(enterItem);
             clientList.append(clientConnection);        // QList<QTcpSocket*> clientList;
             clientNameHash[ip] = name;
@@ -122,7 +123,3 @@ void ChatServer::showServerClient(QTreeWidgetItem* item)
 {
     ui->totalClientTreeWidget->addTopLevelItem(item);
 }
-
-
-
-

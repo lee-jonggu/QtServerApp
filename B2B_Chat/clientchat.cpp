@@ -100,7 +100,7 @@ void ClientChat::on_connectPushButton_clicked()
 
     chatProtocolType data;
     data.type = Server_In;
-    qstrcpy(data.data, ui->clientNameLineEdit->text().toStdString().data());
+    qstrcpy(data.data, ui->clientIdLineEdit->text().toStdString().data());
     QByteArray sendArray;
     QDataStream out(&sendArray, QIODevice::WriteOnly);
     out << data.type;

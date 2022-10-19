@@ -45,7 +45,8 @@ private:
     QTcpServer *tcpServer;
     QList<QTcpSocket*> clientList;
 
-    QString clientId;                                    // 서버에 아이디가 저장되어 있는지 확인
+    QString clientId;  // 서버에 아이디가 저장되어 있는지 확인
+    QString clientName;
 
     QHash<QString, QString> clientNameHash;
 };
