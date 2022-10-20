@@ -7,15 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>526</width>
-    <height>356</height>
+    <height>520</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_4">
+  <layout class="QVBoxLayout" name="verticalLayout_6">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
+    <layout class="QVBoxLayout" name="verticalLayout_5">
      <item>
       <widget class="QLabel" name="label">
        <property name="sizePolicy">
@@ -45,14 +45,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QSplitter" name="splitter">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <widget class="QWidget" name="">
-        <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout">
+          <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
             <widget class="QLabel" name="totalClientListLabel">
              <property name="font">
@@ -63,7 +60,7 @@
               </font>
              </property>
              <property name="text">
-              <string>Total Clinet List</string>
+              <string>Total Client List</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -71,40 +68,65 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton">
-             <property name="maximumSize">
-              <size>
-               <width>50</width>
-               <height>50</height>
-              </size>
+            <widget class="QTreeWidget" name="totalClientTreeWidget">
+             <property name="uniformRowHeights">
+              <bool>false</bool>
              </property>
-             <property name="text">
-              <string>Update</string>
-             </property>
+             <column>
+              <property name="text">
+               <string>Client ID</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Clinet Name</string>
+              </property>
+             </column>
             </widget>
            </item>
           </layout>
          </item>
          <item>
-          <widget class="QTreeWidget" name="totalClientTreeWidget">
-           <property name="uniformRowHeights">
-            <bool>false</bool>
-           </property>
-           <column>
-            <property name="text">
-             <string>Client ID</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Clinet Name</string>
-            </property>
-           </column>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QLabel" name="loginClientListLabel">
+             <property name="font">
+              <font>
+               <family>Bahnschrift SemiBold</family>
+               <pointsize>15</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Server Client List</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTreeWidget" name="loginClientTreeWidget">
+             <property name="uniformRowHeights">
+              <bool>false</bool>
+             </property>
+             <column>
+              <property name="text">
+               <string>Client ID</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Clinet Name</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
-       </widget>
-       <widget class="QWidget" name="">
+       </item>
+       <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
           <widget class="QLabel" name="enterdClientListLabel">
@@ -116,7 +138,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Entered Clinet List</string>
+            <string>Chatting Client List</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -184,8 +206,8 @@
           </widget>
          </item>
         </layout>
-       </widget>
-      </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>

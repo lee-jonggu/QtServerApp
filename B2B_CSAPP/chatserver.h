@@ -14,7 +14,9 @@ class ChatServer;
 typedef enum {
     Server_In,
     Chat_In,
-    Caht_Talk,
+    Chat_Talk,
+    Chat_Out,
+    Server_Out
 } Chat_Status;
 
 typedef struct {
@@ -48,7 +50,10 @@ private:
     QString clientId;  // 서버에 아이디가 저장되어 있는지 확인
     QString clientName;
 
-    QHash<QString, QString> clientNameHash;
+    QHash<int, QString> clientNameHash;
+//    QHash<QString, int> clientIdHash;
+    QHash<QTcpSocket*, int> clientIdHash;
+    QHash<QString, QTcpSocket*> clientSocketHash;
 };
 
 #endif // CHATSERVER_H

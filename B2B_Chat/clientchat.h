@@ -15,7 +15,9 @@ QT_END_NAMESPACE
 typedef enum {
     Server_In,
     Chat_In,
-    Caht_Talk,
+    Chat_Talk,
+    Chat_Out,
+    Server_Out
 } Chat_Status;
 
 typedef struct {
@@ -36,12 +38,19 @@ private slots:
     void receiveData();
     void sendData();
 //    void connectToServer();
+    void sendProtocol(Chat_Status, char*, int = 1020);
 
     void on_sendButton_clicked();
 
     void on_lineEdit_returnPressed();
 
     void on_connectPushButton_clicked();
+
+    void on_chatPushButton_clicked();
+
+    void on_disConnectPushButton_clicked();
+
+    void on_chatOutPushButton_clicked();
 
 private:
     Ui::ClientChat *ui;
