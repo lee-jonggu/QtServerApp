@@ -15,6 +15,7 @@ SOURCES += \
     clientmanager.cpp \
     item.cpp \
     itemmanager.cpp \
+    logthread.cpp \
     main.cpp \
     mainwindow.cpp \
     order.cpp \
@@ -27,6 +28,7 @@ HEADERS += \
     clientmanager.h \
     item.h \
     itemmanager.h \
+    logthread.h \
     mainwindow.h \
     order.h \
     ordermanager.h
